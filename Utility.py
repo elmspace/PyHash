@@ -1,4 +1,4 @@
-
+import random;
 
 """
 	Expects a string, will do the following:
@@ -116,14 +116,14 @@ def NOT_Operator(input_String1):
 
 """
 	This function will return a list of primes, with list of
-	length = input_SizeOfList 
+	length = input_SizeOfList
 """
 def PrimesGenerator(input_SizeOfList):
 
 	ListOfPrimes = [];
 	n = 0;
 	while(len(ListOfPrimes)<input_SizeOfList):
-		if n==2: 
+		if n==2:
 			ListOfPrimes = [2]
 
 		s=range(3,n+1,2)
@@ -145,3 +145,30 @@ def PrimesGenerator(input_SizeOfList):
 		n += 1;
 
 	return ListOfPrimes
+
+
+
+
+
+
+"""
+	This function will take in as input a int, and will return a random alpha-numeric string of
+	the inputted length;
+"""
+def AlphaNumRandom(input_LengthOfRandString):
+	return ''.join(random.choice('0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz') for i in range(input_LengthOfRandString))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# End

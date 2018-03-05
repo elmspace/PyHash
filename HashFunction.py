@@ -5,7 +5,7 @@ All operators (AND, XOR and so on) are in Utility module
 from Utility import *;
 
 
-def HashFunction(input_String, input_ConfigData):
+def HashFunction(input_String, input_ConfigData, input_isAlreadyBinary, input_OutPutType = "hash"):
 
 	####################################################
 	# Origianl string
@@ -45,7 +45,10 @@ def HashFunction(input_String, input_ConfigData):
 	length_of_original_string = len(original_string);
 
 	# Convert the original string into binary
-	binary_format_of_original_string = ''.join(format(ord(i),'b').zfill(8) for i in original_string);
+	if(input_isAlreadyBinary):
+		binary_format_of_original_string = original_string;
+	else:
+		binary_format_of_original_string = ''.join(format(ord(i),'b').zfill(8) for i in original_string);
 
 
 	# Get the length of the binary string
@@ -71,7 +74,7 @@ def HashFunction(input_String, input_ConfigData):
 
 
 	# Lets make the Big-endian
-	# First we fill a 64-bit portion 
+	# First we fill a 64-bit portion
 	TempList = ["0" for i in range(0,64-len(binary_format_of_length_of_string))]
 	# Now we make the Big-endian
 	big_endian = "".join(TempList) + binary_format_of_length_of_string;
@@ -156,7 +159,7 @@ def HashFunction(input_String, input_ConfigData):
 		maj_2 = AND_Operator(h[0],h[2]);
 		maj_3 = AND_Operator(h[1],h[2]);
 		maj = XOR_Operator(XOR_Operator(maj_1,maj_2),maj_3);
-		
+
 		temp2 = ADD_Operator(s0,maj);
 
 		h[7] = h[6];
@@ -180,20 +183,37 @@ def HashFunction(input_String, input_ConfigData):
 	h[6] = ADD_Operator(h_origianl[6],h[6]);
 	h[7] = ADD_Operator(h_origianl[7],h[7]);
 
+	# Output format:
+	if(input_OutPutType == "hash"):
+		# Put the hash values together to create the human readable hash
+		FinalHex = ""
+		for i in h:
+			# If the size of the hash is not what we expect,
+			# append 0s to the front of it
+			HexConv = str(format(int(i,2),'x'));
+			if(len(HexConv) < hash_char_size):
+				DelSize = hash_char_size - len(HexConv);
+				for ii in range(0,DelSize):
+					HexConv  = "0"+HexConv;
+			FinalHex += HexConv;
+		# Here is the has value
+		return FinalHex
+	elif(input_OutPutType == "binary"):
+		BinaryOutput = "".join(i for i in h);
+		return BinaryOutput;
 
-	# Put the hash values together to create the human readable hash
-	FinalHex = ""
-	for i in h:
-		# If the size of the hash is not what we expect,
-		# append 0s to the front of it
-		HexConv = str(format(int(i,2),'x'));
-		if(len(HexConv) < hash_char_size):
-			DelSize = hash_char_size - len(HexConv);
-			for ii in range(0,DelSize):
-				HexConv  = "0"+HexConv;
-
-		FinalHex += HexConv;
 
 
-	# Here is the has value
-	print FinalHex
+
+
+
+
+
+
+
+
+
+
+
+
+# End

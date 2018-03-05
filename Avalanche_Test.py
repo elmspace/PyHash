@@ -1,12 +1,14 @@
 from HashFunction import HashFunction;
-
+from Utility import *;
+import pickle;
+import time;
 
 ####################################################
 input_String = "Test";
 #===========
 
 input_ConfigData = {};
-input_ConfigData["hash_multiple"] = 500;
+input_ConfigData["hash_multiple"] = 512;
 input_ConfigData["chunck_size"] = input_ConfigData["hash_multiple"]/16;
 input_ConfigData["hash_char_size"] = input_ConfigData["chunck_size"]/4;
 
@@ -28,4 +30,82 @@ input_ConfigData["ee"] = 13;
 input_ConfigData["ff"] = 22;
 
 
-HashFunction(input_String, input_ConfigData);
+################################################################################################ Algo Starts Here:
+
+# These parameters will be the same for the whole test:
+isAlreadyBinary = True;
+outputFormat = "binary";
+# Define the sie of the matrix
+n = 40;
+m = 256;
+Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
+##############################
+
+Matrix = pickle.load(open("./Matrix.p","rb"));
+print Matrix;
+raw_input("...")
+
+DeltaTime = 0.0;
+for randStringNumber in range(0,2**13):
+    StartTime = time.time();
+    ################################# Get the original hash/bino
+    # First we take a random string:
+    RandomString = AlphaNumRandom(5);
+
+    # Then we convert the string into binary, this will be used to run the test. Flipping the binos.
+    RandomStringBino = ''.join(format(ord(i),'b').zfill(8) for i in RandomString);
+
+    # Set this to true, since we have already converted our string into binary
+    HashOutput = HashFunction(RandomStringBino, input_ConfigData, isAlreadyBinary, outputFormat);
+
+
+    # Save the original random binary and its hash value, we will use this for the XOR calculation
+    Original_BinaryInput = RandomStringBino;
+    Origianl_HashOfInput = HashOutput;
+
+    # Create a list to hold the modified items
+    List_Modified_Binary_Holder = [];
+    List_Modified_Hash_Holder = [];
+
+    # Now we will look thorugh each ith element of the original input
+    for i in range(0,len(Original_BinaryInput)):
+        # Create  a modified version of the input
+        ModifiedInput = list(Original_BinaryInput);
+        # Flip the ith element of the binary
+        if(ModifiedInput[i] == "0"):
+            ModifiedInput[i] = "1";
+        else:
+            ModifiedInput[i] = "0";
+        # Convert it back to string
+        ModifiedInput = "".join(i for i in ModifiedInput);
+        # Get the has of the modified input, in binary format
+        HashOfModifiedBinary = HashFunction(ModifiedInput, input_ConfigData, isAlreadyBinary, outputFormat);
+        # Append the results to the list
+        List_Modified_Binary_Holder.append(ModifiedInput);
+        List_Modified_Hash_Holder.append(HashOfModifiedBinary);
+
+
+    # Now we can calculate the XOR of the modified hash values and the original hash:
+    # Lets loop through the modified hash values:
+    XOR_List = [];
+    for ModifiedHashValue in List_Modified_Hash_Holder:
+        XOR_List.append(XOR_Operator(ModifiedHashValue,Origianl_HashOfInput));
+
+
+    for i in range(0,len(XOR_List)):
+        for j in range(0,len(XOR_List[i])):
+            if(XOR_List[i][j] == "1"):
+                Matrix[i][j] += 1;
+
+    pickle.dump(Matrix, open("Matrix.p","wb"));
+    EndTime = time.time();
+    DeltaTime += float(abs(StartTime - EndTime))/60.0;
+    print "Run time: ["+str(DeltaTime)+"] Number of random string: ["+str(randStringNumber)+"]";
+
+
+
+
+
+
+
+# End
