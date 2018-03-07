@@ -162,8 +162,24 @@ def AlphaNumRandom(input_LengthOfRandString):
 
 
 
+"""
+	This function will calculate the chi^2 for a mtrix of size m by n.
+	It takes as input, the Matrix and the expected value.
+	It outputs the chi^2 value for that Matrix.
+"""
+def CalculateChiSq(input_Matrix, input_ExpValue):
 
+	# First we get the dimessions of the matrix
+	Rows = len(input_Matrix);
+	Cols = len(input_Matrix[0]);
+	
+	chisq = 0.0;
+	# Now we want to loop thorugh the matrix and calculate chi
+	for row in range(0,Rows):
+		for col in range(0,Cols):
+			chisq += ((input_Matrix[row][col] - input_ExpValue)**2/input_ExpValue);
 
+	return chisq;
 
 
 

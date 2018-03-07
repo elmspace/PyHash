@@ -1,3 +1,8 @@
+import os;
+import sys;
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../../', '')));
+
 from HashFunction import HashFunction;
 from Utility import *;
 import pickle;
@@ -41,9 +46,6 @@ m = 256;
 Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
 ##############################
 
-Matrix = pickle.load(open("./Matrix.p","rb"));
-print Matrix;
-raw_input("...")
 
 DeltaTime = 0.0;
 for randStringNumber in range(0,2**13):
