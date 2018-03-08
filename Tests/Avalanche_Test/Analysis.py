@@ -14,6 +14,15 @@ from Utility import *;
 # Lets read the data from a pickle file
 Matrix = pickle.load(open("Matrix_8192.p","rb"));
 
+for i in Matrix:
+	print max(i), min(i);
+
+raw_input("...")
+
+
+print CalculateSTD(Matrix, "matrix");
+print CalculateMean(Matrix, "matrix");
+raw_input("...")
 
 # Now that we have the data, we can calculate the chi^2
 # The data is in a Matrix format, list of list.

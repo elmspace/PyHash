@@ -1,4 +1,5 @@
 import random;
+import math;
 
 """
 	Expects a string, will do the following:
@@ -172,14 +173,77 @@ def CalculateChiSq(input_Matrix, input_ExpValue):
 	# First we get the dimessions of the matrix
 	Rows = len(input_Matrix);
 	Cols = len(input_Matrix[0]);
-	
+	print Rows, Cols
 	chisq = 0.0;
 	# Now we want to loop thorugh the matrix and calculate chi
 	for row in range(0,Rows):
 		for col in range(0,Cols):
-			chisq += ((input_Matrix[row][col] - input_ExpValue)**2/input_ExpValue);
+
+			chisq += ((float(input_Matrix[row][col]) - float(input_ExpValue))**2/float(input_ExpValue));
 
 	return chisq;
+
+
+
+
+"""
+	This function will caluclate the mean for a data set.
+	The data set can be a matrix of dimention m by n (a list of lists)
+	Or a list of dimension n
+	input_Data -> the data itself
+	input_DataType -> The type of the data, <matrix> <list>
+"""
+def CalculateMean(input_Data, input_DataType):
+	MeanValue = None;
+	if(input_DataType == "matrix"):
+		Rows = len(input_Data);
+		Cols = len(input_Data[0]);
+		MeanValue = 0.0;
+		TotalNumberOfElements = float(Rows) * float(Cols);
+		for row in range(Rows):
+			for col in range(Cols):
+				MeanValue += input_Data[row][col];
+		# Calculate the mean		
+		MeanValue = float(MeanValue) / TotalNumberOfElements;
+		return MeanValue;
+	elif(input_DataType == "list"):
+		MeanValue = 0.0;
+		MeanValue = float(sum(input_Data))/float(len(input_Data));
+	else:
+		return MeanValue;
+
+
+
+"""
+	This function will calculate the standard deviation for a input data
+	The input data can be a list, or a matrix, a list of lists.
+	input_Data is the actual data.
+	input_DataType is the type of the input_Data, either a list or matrix.
+"""
+def CalculateSTD(input_Data, input_DataType):
+	STDValue = None;
+	if(input_DataType == "matrix"):
+		Rows = len(input_Data);
+		Cols = len(input_Data[0]);
+		STDValue = 0.0;
+		TotalNumberOfElements = float(Rows) * float(Cols);
+		MeanValue = CalculateMean(input_Data,"matrix");
+		for row in range(Rows):
+			for col in range(Cols):
+				STDValue += float((input_Data[row][col] - MeanValue)**2);
+		STDValue /= TotalNumberOfElements;
+		STDValue = math.sqrt(STDValue);
+		return STDValue;
+	elif(input_DataType == "list"):
+		MeanValue = CalculateMean(input_Data,"list");
+		STDValue = 0.0;
+		for i in range(len(input_Data)):
+			STDValue += float((input_Data[i] - MeanValue)**2);
+		STDValue /= float(len(input_Data));
+		STDValue = math.sqrt(STDValue);
+		return STDValue;
+	else:
+		return None;
 
 
 
