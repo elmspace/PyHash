@@ -40,7 +40,7 @@ input_ConfigData["ff"] = 22;
 # These parameters will be the same for the whole test:
 isAlreadyBinary = True;
 outputFormat = "binary";
-MatrixDataSavePath = ".\\Results\\";
+MatrixDataSavePath = ".\\Results_512\\";
 ##############################
 
 
@@ -51,7 +51,6 @@ for SampleSize in range(500, 2**13, 500):
 	m = 256;
 	Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
 	for randStringNumber in range(0,SampleSize):
-		print randStringNumber
 		StartTime = time.time();
 		################################# Get the original hash/bino
 		# First we take a random string:

@@ -13,26 +13,26 @@ input_String = "Test";
 #===========
 
 input_ConfigData = {};
-input_ConfigData["hash_multiple"] = 512;
+input_ConfigData["hash_multiple"] = 128;
 input_ConfigData["chunck_size"] = input_ConfigData["hash_multiple"]/16;
 input_ConfigData["hash_char_size"] = input_ConfigData["chunck_size"]/4;
 
 #===========
 # These are right rotate and shift values when creating the W list
-input_ConfigData["aaa"] = 7;
-input_ConfigData["bbb"] = 18;
-input_ConfigData["ccc"] = 3;
-input_ConfigData["ddd"] = 17;
-input_ConfigData["eee"] = 19;
-input_ConfigData["fff"] = 10;
+input_ConfigData["aaa"] = 2;
+input_ConfigData["bbb"] = 5;
+input_ConfigData["ccc"] = 1;
+input_ConfigData["ddd"] = 3;
+input_ConfigData["eee"] = 5;
+input_ConfigData["fff"] = 3;
 #============
 # These are the right rotate values for the compression portion
-input_ConfigData["aa"] = 6;
-input_ConfigData["bb"] = 11;
-input_ConfigData["cc"] = 25;
-input_ConfigData["dd"] = 2;
-input_ConfigData["ee"] = 13;
-input_ConfigData["ff"] = 22;
+input_ConfigData["aa"] = 2;
+input_ConfigData["bb"] = 3;
+input_ConfigData["cc"] = 6;
+input_ConfigData["dd"] = 1;
+input_ConfigData["ee"] = 3;
+input_ConfigData["ff"] = 6;
 
 
 ################################################################################################ Algo Starts Here:
@@ -40,7 +40,7 @@ input_ConfigData["ff"] = 22;
 # These parameters will be the same for the whole test:
 isAlreadyBinary = True;
 outputFormat = "binary";
-MatrixDataSavePath = ".\\Results\\";
+MatrixDataSavePath = ".\\Results_128\\";
 ##############################
 
 
@@ -51,7 +51,6 @@ for SampleSize in range(500, 2**13, 500):
 	m = 256;
 	Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
 	for randStringNumber in range(0,SampleSize):
-		print randStringNumber
 		StartTime = time.time();
 		################################# Get the original hash/bino
 		# First we take a random string:
