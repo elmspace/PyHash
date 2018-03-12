@@ -173,7 +173,6 @@ def CalculateChiSq(input_Matrix, input_ExpValue):
 	# First we get the dimessions of the matrix
 	Rows = len(input_Matrix);
 	Cols = len(input_Matrix[0]);
-	print Rows, Cols
 	chisq = 0.0;
 	# Now we want to loop thorugh the matrix and calculate chi
 	for row in range(0,Rows):

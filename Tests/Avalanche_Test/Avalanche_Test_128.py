@@ -21,10 +21,10 @@ input_ConfigData["hash_char_size"] = input_ConfigData["chunck_size"]/4;
 # These are right rotate and shift values when creating the W list
 input_ConfigData["aaa"] = 2;
 input_ConfigData["bbb"] = 5;
-input_ConfigData["ccc"] = 1;
-input_ConfigData["ddd"] = 3;
+input_ConfigData["ccc"] = 1; # Shift
+input_ConfigData["ddd"] = 4;
 input_ConfigData["eee"] = 5;
-input_ConfigData["fff"] = 3;
+input_ConfigData["fff"] = 3; # Shift
 #============
 # These are the right rotate values for the compression portion
 input_ConfigData["aa"] = 2;
@@ -44,24 +44,24 @@ MatrixDataSavePath = ".\\Results_128\\";
 ##############################
 
 
-for SampleSize in range(500, 2**13, 500):
+for SampleSize in range(10, 1000, 10):
 	DeltaTime = 0.0;
 	# Define the sie of the matrix
-	n = 40;
-	m = 256;
+	n = 8;
+	m = 64;
 	Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
+
 	for randStringNumber in range(0,SampleSize):
 		StartTime = time.time();
 		################################# Get the original hash/bino
 		# First we take a random string:
-		RandomString = AlphaNumRandom(5);
+		RandomString = AlphaNumRandom(1);
 
 		# Then we convert the string into binary, this will be used to run the test. Flipping the binos.
 		RandomStringBino = ''.join(format(ord(i),'b').zfill(8) for i in RandomString);
 
 		# Set this to true, since we have already converted our string into binary
 		HashOutput = HashFunction(RandomStringBino, input_ConfigData, isAlreadyBinary, outputFormat);
-
 
 		# Save the original random binary and its hash value, we will use this for the XOR calculation
 		Original_BinaryInput = RandomStringBino;
@@ -94,7 +94,6 @@ for SampleSize in range(500, 2**13, 500):
 		XOR_List = [];
 		for ModifiedHashValue in List_Modified_Hash_Holder:
 			XOR_List.append(XOR_Operator(ModifiedHashValue,Origianl_HashOfInput));
-
 
 		for i in range(0,len(XOR_List)):
 			for j in range(0,len(XOR_List[i])):

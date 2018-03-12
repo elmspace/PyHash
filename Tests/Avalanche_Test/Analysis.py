@@ -6,27 +6,64 @@
 import pickle;
 import os;
 import sys;
+from os import listdir;
+from os.path import isfile, join;
+import pandas as pd;
+import matplotlib.pyplot as plt
+from matplotlib import style;
+style.use('ggplot')
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../../', '')));
 from Utility import *;
 
 
+BaseResultsPath = ".\\Results_128\\"
 
-# Lets read the data from a pickle file
-Matrix = pickle.load(open("Matrix_8192.p","rb"));
-
-for i in Matrix:
-	print max(i), min(i);
-
-raw_input("...")
+ResultsFiles = [f for f in listdir(BaseResultsPath) if isfile(join(BaseResultsPath, f))];
 
 
-print CalculateSTD(Matrix, "matrix");
-print CalculateMean(Matrix, "matrix");
-raw_input("...")
+NumberOfRandomStringsList = [];
+ExpectValueList = [];
+ChiSqlList = [];
+MeanList = [];
+STDList = [];
+DegOfFreedomList = [];
 
-# Now that we have the data, we can calculate the chi^2
-# The data is in a Matrix format, list of list.
+for results in ResultsFiles:
+	# Lets read the data from a pickle file
+	Matrix = pickle.load(open(BaseResultsPath+results,"rb"));
+
+	NumberOfRandomStrings = int(str(results).split("_")[1]);
+	ExpectedValue = float(NumberOfRandomStrings)/2.0;
+
+	NumberOfRandomStringsList.append(NumberOfRandomStrings);
+	ExpectValueList.append(ExpectedValue);
+	ChiSqlList.append(CalculateChiSq(Matrix, ExpectedValue));
+	MeanList.append(CalculateMean(Matrix, "matrix"));
+	STDList.append(CalculateSTD(Matrix, "matrix"));
+	DegOfFreedomList.append((len(Matrix) * len(Matrix[0])) - 1);
 
 
-ExpectedValue = 8192/2;
-print CalculateChiSq(Matrix, ExpectedValue);
+
+
+ListOfColumns = ["chisq","mean","std","exp_val","numb_input", "DegOfFreedom"];
+TotalData = pd.DataFrame(columns=ListOfColumns);
+
+
+TotalData["chisq"] = ChiSqlList;
+TotalData["mean"] = MeanList;
+TotalData["std"] = STDList;
+TotalData["exp_val"] = ExpectValueList;
+TotalData["numb_input"] = NumberOfRandomStringsList;
+TotalData["DegOfFreedom"] = DegOfFreedomList;
+TotalData["factor"] = (TotalData["std"]);
+
+TotalData.sort_values(by=["numb_input"], inplace=True);
+TotalData.index = TotalData["numb_input"];
+
+
+
+print TotalData;
+
+TotalData[["chisq"]].plot(style=['-*']);
+plt.show()
