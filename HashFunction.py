@@ -16,6 +16,7 @@ def HashFunction(input_String, input_ConfigData, input_isAlreadyBinary, input_Ou
 	hash_multiple = input_ConfigData["hash_multiple"];
 	chunck_size = input_ConfigData["chunck_size"];
 	hash_char_size = input_ConfigData["hash_char_size"];
+	RoundConst = input_ConfigData["RoundConst"];
 
 	#===========
 	# These are right rotate and shift values when creating the W list
@@ -124,7 +125,7 @@ def HashFunction(input_String, input_ConfigData, input_isAlreadyBinary, input_Ou
 
 
 		# Lets create the remaining portion of the W list
-		for i in range(16,64):
+		for i in range(16,RoundConst):
 			# This makes the s0
 			s0_1 = RightRotate(W[i-15], aaa);
 			s0_2 = RightRotate(W[i-15], bbb);
@@ -146,7 +147,7 @@ def HashFunction(input_String, input_ConfigData, input_isAlreadyBinary, input_Ou
 		h_origianl = h[:];
 
 
-		for i in range(0,64):
+		for i in range(0,RoundConst):
 			s1_1 = RightRotate(h[4], aa);
 			s1_2 = RightRotate(h[4], bb);
 			s1_3 = RightRotate(h[4], cc);

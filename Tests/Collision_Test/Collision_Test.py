@@ -13,26 +13,27 @@ input_String = "Test";
 #===========
 
 input_ConfigData = {};
-input_ConfigData["hash_multiple"] = 128;
+input_ConfigData["hash_multiple"] = 512;
 input_ConfigData["chunck_size"] = input_ConfigData["hash_multiple"]/16;
 input_ConfigData["hash_char_size"] = input_ConfigData["chunck_size"]/4;
+input_ConfigData["RoundConst"] = 16;
 
 #===========
 # These are right rotate and shift values when creating the W list
-input_ConfigData["aaa"] = 0;
-input_ConfigData["bbb"] = 0;
-input_ConfigData["ccc"] = 8;
-input_ConfigData["ddd"] = 0;
-input_ConfigData["eee"] = 0;
-input_ConfigData["fff"] = 8;
+input_ConfigData["aaa"] = 0;#7;
+input_ConfigData["bbb"] = 0;#18;
+input_ConfigData["ccc"] = 32;#3; # Shift
+input_ConfigData["ddd"] = 0;#17;
+input_ConfigData["eee"] = 0;#19;
+input_ConfigData["fff"] = 32;#10; # Shift
 #============
 # These are the right rotate values for the compression portion
-input_ConfigData["aa"] = 0;
-input_ConfigData["bb"] = 0;
-input_ConfigData["cc"] = 0;
-input_ConfigData["dd"] = 0;
-input_ConfigData["ee"] = 0;
-input_ConfigData["ff"] = 0;
+input_ConfigData["aa"] = 0;#6;
+input_ConfigData["bb"] = 0;#11;
+input_ConfigData["cc"] = 0;#25;
+input_ConfigData["dd"] = 0;#2;
+input_ConfigData["ee"] = 0;#13;
+input_ConfigData["ff"] = 0;#22;
 
 
 ################################################################################################ Algo Starts Here:
@@ -53,7 +54,7 @@ MatrixDataSavePath = ".\\Results_512\\";
 
 
 
-LengthOfRandomStringInLetters = 2;
+LengthOfRandomStringInLetters = 10**4;
 NumberOfRandomStringSample = 10**5;
 
 ListOfRandomStrings = [];
