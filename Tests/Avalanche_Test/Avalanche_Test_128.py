@@ -16,6 +16,7 @@ input_ConfigData = {};
 input_ConfigData["hash_multiple"] = 128;
 input_ConfigData["chunck_size"] = input_ConfigData["hash_multiple"]/16;
 input_ConfigData["hash_char_size"] = input_ConfigData["chunck_size"]/4;
+input_ConfigData["RoundConst"] = 16;
 
 #===========
 # These are right rotate and shift values when creating the W list
