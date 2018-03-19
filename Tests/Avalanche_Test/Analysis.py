@@ -17,7 +17,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '../..
 from Utility import *;
 
 
-BaseResultsPath = ".\\Study4\\Results\\"
+SavePickleIn = ".\\Study4\\";
+BaseResultsPath = ".\\Study4\\Results\\";
 
 ResultsFiles = [f for f in listdir(BaseResultsPath) if isfile(join(BaseResultsPath, f))];
 
@@ -66,7 +67,7 @@ TotalData.sort_values(by=["numb_input"], inplace=True);
 TotalData.index = TotalData["numb_input"];
 
 
-pickle.dump(TotalData,open(BaseResultsPath+"Analysis.p","wb"));
+pickle.dump(TotalData,open(SavePickleIn+"Analysis.p","wb"));
 
 
 
