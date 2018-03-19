@@ -45,24 +45,24 @@ MatrixDataSavePath = ".\\Results_512\\";
 ##############################
 
 
-for SampleSize in range(500, 2**13, 500):
+for SampleSize in range(10, 10000, 50):
 	DeltaTime = 0.0;
 	# Define the sie of the matrix
-	n = 40;
+	n = 80;
 	m = 256;
 	Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
 	for randStringNumber in range(0,SampleSize):
+		print randStringNumber
 		StartTime = time.time();
 		################################# Get the original hash/bino
 		# First we take a random string:
-		RandomString = AlphaNumRandom(5);
+		RandomString = AlphaNumRandom(10);
 
 		# Then we convert the string into binary, this will be used to run the test. Flipping the binos.
 		RandomStringBino = ''.join(format(ord(i),'b').zfill(8) for i in RandomString);
 
 		# Set this to true, since we have already converted our string into binary
 		HashOutput = HashFunction(RandomStringBino, input_ConfigData, isAlreadyBinary, outputFormat);
-
 
 		# Save the original random binary and its hash value, we will use this for the XOR calculation
 		Original_BinaryInput = RandomStringBino;

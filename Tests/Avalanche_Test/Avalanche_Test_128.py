@@ -16,7 +16,7 @@ input_ConfigData = {};
 input_ConfigData["hash_multiple"] = 128;
 input_ConfigData["chunck_size"] = input_ConfigData["hash_multiple"]/16;
 input_ConfigData["hash_char_size"] = input_ConfigData["chunck_size"]/4;
-input_ConfigData["RoundConst"] = 16;
+input_ConfigData["RoundConst"] = 64;
 
 #===========
 # These are right rotate and shift values when creating the W list
@@ -45,19 +45,20 @@ MatrixDataSavePath = ".\\Results_128\\";
 ##############################
 
 
-for SampleSize in range(10, 1000, 10):
+for SampleSize in range(10, 10000, 50):
 	DeltaTime = 0.0;
 	# Define the sie of the matrix
-	n = 8;
+	n = 80;
 	m = 64;
 	Matrix = [[0 for j in range(0,m)] for i in range(0,n)];
 
 	for randStringNumber in range(0,SampleSize):
+		print randStringNumber;
 		StartTime = time.time();
 		################################# Get the original hash/bino
 		# First we take a random string:
-		RandomString = AlphaNumRandom(1);
-
+		RandomString = AlphaNumRandom(10);
+		
 		# Then we convert the string into binary, this will be used to run the test. Flipping the binos.
 		RandomStringBino = ''.join(format(ord(i),'b').zfill(8) for i in RandomString);
 
